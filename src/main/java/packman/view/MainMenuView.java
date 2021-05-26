@@ -55,7 +55,7 @@ public class MainMenuView {
         try {
             root = fxmlLoader.load();
             Main.stage.setTitle("Setting");
-            Main.stage.setScene(new Scene(root, 300, 400));
+            Main.stage.setScene(new Scene(root, 300, 450));
         } catch (IOException e) {
             e.printStackTrace();
         }

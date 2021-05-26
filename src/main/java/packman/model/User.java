@@ -13,17 +13,39 @@ public class User {
     private int highScore;
     private String recordTime;
     private ArrayList<Map> maps;
+    private int indexOfSelectedMap;
 
     public User(String username, String password) {
         setPassword(password);
         setUsername(username);
         setHighScore(0);
         maps = new ArrayList<>();
+        indexOfSelectedMap = 0;
         for (int i = 0; i < 5; i++) {
             maps.add(new Map());
         }
         levelOfGame = "Easy";
         numberOfLife = 3;
+    }
+
+    public ArrayList<Map> getMaps() {
+        return maps;
+    }
+
+    public int getIndexOfSelectedMap() {
+        return indexOfSelectedMap;
+    }
+
+    public void setIndexOfSelectedMap(int indexOfSelectedMap) {
+        this.indexOfSelectedMap = indexOfSelectedMap;
+    }
+
+    public void increaseIndexOfSelectedMap() {
+        this.indexOfSelectedMap++;
+    }
+
+    public void decreaseIndexOfSelectedMap() {
+        this.indexOfSelectedMap--;
     }
 
     public String getRecordTime() {
@@ -75,5 +97,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int numberOfMaps() {
+        return maps.size();
     }
 }

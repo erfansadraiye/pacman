@@ -1,7 +1,6 @@
 package packman.model;
 
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,13 +13,9 @@ public class Map {
     final int LENGTH = 10;
     final int HEIGHT_OF_WALL = 2 * HEIGHT + 1;
     final int WIDTH_OF_WALL = 2 * WIDTH + 1;
-    boolean[][] isCrossed = new boolean[HEIGHT][WIDTH];
     private int[][] maze;
 
-    private GridPane gridPane;
-
     public Map() {
-        gridPane = new GridPane();
         maze = new int[LENGTH * 2 + 1][LENGTH * 2 + 1];
         run();
     }
@@ -30,8 +25,9 @@ public class Map {
         int widthPositionInIsCrossed = 0;
         int heightPositionInMaze = 1;
         int heightPositionInIsCrossed = 0;
-        createFullBlockedMaze();
-        setRandomDirection(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed);
+        boolean[][] isCrossed = new boolean[HEIGHT][WIDTH];
+        createFullBlockedMaze(isCrossed);
+        setRandomDirection(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed);
         for (int i = 0; i < 3 * WIDTH; i++) {
             Random random = new Random();
             int upper = WIDTH_OF_WALL - 2;
@@ -42,10 +38,9 @@ public class Map {
             else
                 i--;
         }
-        createMap();
     }
 
-    private void createMap() {
+    private void createMap(GridPane gridPane) {
         for (int i = 0; i < HEIGHT_OF_WALL; i++) {
             for (int j = 0; j < WIDTH_OF_WALL; j++) {
                 PieceOfMap pieceOfMap;
@@ -58,11 +53,12 @@ public class Map {
         }
     }
 
-    public GridPane getGridPane() {
-        return gridPane;
+
+    public void passGridPaneChildren(GridPane gridPane) {
+        createMap(gridPane);
     }
 
-    private void createFullBlockedMaze() {
+    private void createFullBlockedMaze(boolean[][] isCrossed) {
         for (int i = 0; i < HEIGHT_OF_WALL; i++) {
             for (int j = 0; j < WIDTH_OF_WALL; j++) {
                 if (i % 2 == 1 && j % 2 == 1)
@@ -79,7 +75,7 @@ public class Map {
         isCrossed[0][0] = true;
     }
 
-    boolean moveLeftIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed) {
+    boolean moveLeftIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
         boolean isMovePossible = widthPositionInIsCrossed - 1 >= 0 && !isCrossed[heightPositionInIsCrossed][widthPositionInIsCrossed - 1];
         if (isMovePossible) {
             maze[heightPositionInMaze][widthPositionInMaze - 1] = 0;
@@ -89,33 +85,33 @@ public class Map {
         return false;
     }
 
-    void setRandomDirection(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed) {
+    void setRandomDirection(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
         Integer[] direction = generateRandomDirection();
 
         for (Integer integer : direction) {
             switch (integer) {
                 case 1://Right
-                    if (moveRightIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed))
-                        setRandomDirection(heightPositionInMaze, widthPositionInMaze + 2, heightPositionInIsCrossed, widthPositionInIsCrossed + 1);
+                    if (moveRightIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed))
+                        setRandomDirection(heightPositionInMaze, widthPositionInMaze + 2, heightPositionInIsCrossed, widthPositionInIsCrossed + 1,isCrossed);
                     break;
                 case 2://Down
-                    if (moveDownIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed))
-                        setRandomDirection(heightPositionInMaze + 2, widthPositionInMaze, heightPositionInIsCrossed + 1, widthPositionInIsCrossed);
+                    if (moveDownIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed))
+                        setRandomDirection(heightPositionInMaze + 2, widthPositionInMaze, heightPositionInIsCrossed + 1, widthPositionInIsCrossed,isCrossed);
                     break;
                 case 3://Up
-                    if (moveUpIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed))
-                        setRandomDirection(heightPositionInMaze - 2, widthPositionInMaze, heightPositionInIsCrossed - 1, widthPositionInIsCrossed);
+                    if (moveUpIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed))
+                        setRandomDirection(heightPositionInMaze - 2, widthPositionInMaze, heightPositionInIsCrossed - 1, widthPositionInIsCrossed,isCrossed);
                     break;
                 case 4://Left
-                    if (moveLeftIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed))
-                        setRandomDirection(heightPositionInMaze, widthPositionInMaze - 2, heightPositionInIsCrossed, widthPositionInIsCrossed - 1);
+                    if (moveLeftIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed))
+                        setRandomDirection(heightPositionInMaze, widthPositionInMaze - 2, heightPositionInIsCrossed, widthPositionInIsCrossed - 1,isCrossed);
                     break;
             }
         }
 
     }
 
-    boolean moveRightIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed) {
+    boolean moveRightIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
         boolean isMovePossible = widthPositionInIsCrossed + 1 < WIDTH && !isCrossed[heightPositionInIsCrossed][widthPositionInIsCrossed + 1];
         if (isMovePossible) {
             maze[heightPositionInMaze][widthPositionInMaze + 1] = 0;
@@ -126,7 +122,7 @@ public class Map {
 
     }
 
-    boolean moveDownIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed) {
+    boolean moveDownIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
         boolean isMovePossible = heightPositionInIsCrossed + 1 < HEIGHT && !isCrossed[heightPositionInIsCrossed + 1][widthPositionInIsCrossed];
         if (isMovePossible) {
             maze[heightPositionInMaze + 1][widthPositionInMaze] = 0;
@@ -136,7 +132,7 @@ public class Map {
         return false;
     }
 
-    boolean moveUpIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed) {
+    boolean moveUpIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
         boolean isMovePossible = heightPositionInIsCrossed - 1 >= 0 && !isCrossed[heightPositionInIsCrossed - 1][widthPositionInIsCrossed];
         if (isMovePossible) {
             maze[heightPositionInMaze - 1][widthPositionInMaze] = 0;
@@ -147,15 +143,11 @@ public class Map {
     }
 
     Integer[] generateRandomDirection() {
-        ArrayList<Integer> randomNumberFrom1to4 = new ArrayList<Integer>();
+        ArrayList<Integer> randomNumberFrom1to4 = new ArrayList<>();
         for (int i = 0; i < 4; i++)
             randomNumberFrom1to4.add(i + 1);
         for (int i = 0; i < 100; i++)
             Collections.shuffle(randomNumberFrom1to4);
         return randomNumberFrom1to4.toArray(new Integer[4]);
-    }
-
-    public void passGridPaneChildren(GridPane gridPane) {
-        gridPane.getChildren().addAll(getGridPane().getChildren());
     }
 }

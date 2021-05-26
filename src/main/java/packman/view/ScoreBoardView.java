@@ -6,7 +6,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -94,11 +93,6 @@ public class ScoreBoardView {
         highScoreVBox.setAlignment(Pos.TOP_CENTER);
         highScoreVBox.getChildren().add(scoreTXT);
 
-//        HBox hBox = new HBox(region, rankTXT, usernameTXT, scoreTXT);
-//        hBox.setAlignment(Pos.CENTER_LEFT);
-//        hBox.prefHeight(33);
-//        hBox.prefWidth(260);
-//        vbox.getChildren().add(hBox);
     }
 
     public void back(ActionEvent actionEvent) {

@@ -116,4 +116,16 @@ public class SettingView {
             alert1.show();
         }
     }
+
+    public void manageMaps(ActionEvent actionEvent) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("map_manager.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+            Main.stage.setTitle("Manage Maps");
+            Main.stage.setScene(new Scene(root, 930, 1000));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
