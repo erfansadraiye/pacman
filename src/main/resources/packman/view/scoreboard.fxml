@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<AnchorPane prefHeight="400.0" prefWidth="300.0" styleClass="background" xmlns="http://javafx.com/javafx/16"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="packman.view.ScoreBoardView">
+    <stylesheets>
+        <URL value="@style.css"/>
+    </stylesheets>
+    <children>
+        <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="8.0" prefHeight="385.0" prefWidth="280.0"
+                    styleClass="scroll-pane">
+            <content>
+                <VBox fx:id="vbox" prefHeight="374.0" prefWidth="263.0" styleClass="background">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="55.0" prefWidth="263.0">
+                            <children>
+                                <Button onAction="#back" mnemonicParsing="false" prefHeight="42.0" prefWidth="48.0"
+                                        text="&lt;-"/>
+                                <Region prefHeight="50.0" prefWidth="8.0"/>
+                                <ImageView fitHeight="44.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@pacman.png"/>
+                                    </image>
+                                </ImageView>
+                                <Region prefHeight="57.0" prefWidth="10.0"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Score Board"
+                                      wrappingWidth="141.23486328125">
+                                    <font>
+                                        <Font size="20.0"/>
+                                    </font>
+                                </Text>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" top="20.0"/>
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="263.0">
+                            <children>
+                                <Region prefHeight="33.0" prefWidth="11.0"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Rank"/>
+                                <Region prefHeight="33.0" prefWidth="51.0"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username"/>
+                                <Region prefHeight="33.0" prefWidth="33.0"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Highscore"/>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="271.0" prefWidth="263.0">
+                            <children>
+                                <Region prefHeight="100.0" prefWidth="9.0"/>
+                                <VBox fx:id="rankVBox" alignment="CENTER" prefHeight="100.0" prefWidth="31.0"/>
+                                <Region prefHeight="100.0" prefWidth="34.0"/>
+                                <VBox fx:id="usernameVbox" alignment="CENTER" prefHeight="100.0" prefWidth="105.0"/>
+                                <Region prefHeight="100.0" prefWidth="13.0"/>
+                                <VBox fx:id="highScoreVBox" alignment="CENTER" prefHeight="100.0" prefWidth="62.0"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>
