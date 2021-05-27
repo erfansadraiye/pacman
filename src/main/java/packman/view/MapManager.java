@@ -46,7 +46,7 @@ public class MapManager {
         try {
             root = fxmlLoader.load();
             Main.stage.setTitle("Generate new Map");
-            Main.stage.setScene(new Scene(root, 930, 1000));
+            Main.stage.setScene(new Scene(root, 900, 770));
         } catch (IOException e) {
             e.printStackTrace();
         }

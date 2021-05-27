@@ -31,7 +31,7 @@ public class MainMenuView {
         try {
             root = fxmlLoader.load();
             Main.stage.setTitle("Pac Man");
-            Main.stage.setScene(new Scene(root,1200,1000));
+            Main.stage.setScene(new Scene(root,1000,770));
         } catch (IOException e) {
             e.printStackTrace();
         }

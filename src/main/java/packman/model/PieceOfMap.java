@@ -2,6 +2,7 @@ package packman.model;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class PieceOfMap extends Rectangle {
@@ -10,14 +11,15 @@ public class PieceOfMap extends Rectangle {
     private Image image;
 
     public PieceOfMap(boolean isBlocked) {
-        super(50, 50);
+        super(36, 36);
         this.isBlocked = isBlocked;
         this.isCrossed = isBlocked;
         if (isBlocked())
             setFill(Color.BLUE);
         else {
-            setFill(Color.DARKGRAY);
-
+            Image image = new Image("src/main/resources/packman/view/is_not_crossed.png");
+            ImagePattern imagePattern = new ImagePattern(image);
+            setFill(imagePattern);
         }
     }
 
