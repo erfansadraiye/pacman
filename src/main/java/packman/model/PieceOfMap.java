@@ -17,9 +17,11 @@ public class PieceOfMap extends Rectangle {
         if (isBlocked())
             setFill(Color.BLUE);
         else {
-            Image image = new Image("src/main/resources/packman/view/is_not_crossed.png");
-            ImagePattern imagePattern = new ImagePattern(image);
-            setFill(imagePattern);
+            setFill(Color.DARKGRAY);
+//
+//            Image image = new Image("src/main/resources/packman/view/is_not_crossed.png");
+//            ImagePattern imagePattern = new ImagePattern(image);
+//            setFill(imagePattern);
         }
     }
 

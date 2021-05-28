@@ -64,7 +64,7 @@
                </rowConstraints>
             </GridPane>
             <Region prefHeight="770.0" prefWidth="10.0" />
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="770.0" prefWidth="112.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="42.0" prefWidth="100.0">
                      <children>
