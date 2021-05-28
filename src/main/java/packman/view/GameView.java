@@ -11,7 +11,6 @@ public class GameView {
     public void initialize() {
         Map map = new Map();
         map.passGridPaneChildren(gridPane);
-
     }
 
 }

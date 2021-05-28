@@ -5,10 +5,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
+import java.io.File;
+import java.net.MalformedURLException;
+
 public class PieceOfMap extends Rectangle {
     private boolean isBlocked;
     private boolean isCrossed;
-    private Image image;
 
     public PieceOfMap(boolean isBlocked) {
         super(36, 36);
@@ -17,11 +19,9 @@ public class PieceOfMap extends Rectangle {
         if (isBlocked())
             setFill(Color.BLUE);
         else {
-            setFill(Color.DARKGRAY);
-//
-//            Image image = new Image("src/main/resources/packman/view/is_not_crossed.png");
-//            ImagePattern imagePattern = new ImagePattern(image);
-//            setFill(imagePattern);
+            Image image = new Image("file:/home/erfan/IdeaProjects/pacman/src/main/resources/packman/view/is_not_crossed3.png");
+            ImagePattern imagePattern = new ImagePattern(image);
+            setFill(imagePattern);
         }
     }
 
@@ -29,7 +29,12 @@ public class PieceOfMap extends Rectangle {
         return isBlocked;
     }
 
-    public void setBlocked(boolean blocked) {
-        isBlocked = blocked;
+    public void setCrossed(boolean crossed) {
+        isCrossed = crossed;
+        setFill(Color.DARKGRAY);
+    }
+
+    public boolean isCrossed() {
+        return isCrossed;
     }
 }
