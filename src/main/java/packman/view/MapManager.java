@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import packman.controller.DatabaseController;
 import packman.model.Map;
 import packman.model.User;
 
@@ -56,6 +57,8 @@ public class MapManager {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("setting.fxml"));
         Parent root = null;
         try {
+            user.setIndexOfSelectedMap(Integer.parseInt(selectedNumber.getText()) - 1);
+            DatabaseController.updateUser(user);
             root = fxmlLoader.load();
             Main.stage.setTitle("Setting");
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

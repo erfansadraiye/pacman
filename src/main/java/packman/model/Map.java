@@ -27,7 +27,7 @@ public class Map {
         int heightPositionInIsCrossed = 0;
         boolean[][] isCrossed = new boolean[HEIGHT][WIDTH];
         createFullBlockedMaze(isCrossed);
-        setRandomDirection(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed);
+        setRandomDirection(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed, isCrossed);
         for (int i = 0; i < 3 * WIDTH; i++) {
             Random random = new Random();
             int upper = WIDTH_OF_WALL - 2;
@@ -48,7 +48,9 @@ public class Map {
                     pieceOfMap = new PieceOfMap(true);
                 else
                     pieceOfMap = new PieceOfMap(false);
-                gridPane.add(pieceOfMap, i, j);
+                GridPane.setRowIndex(pieceOfMap, i);
+                GridPane.setColumnIndex(pieceOfMap, j);
+                gridPane.getChildren().add(pieceOfMap);
             }
         }
     }
@@ -75,7 +77,7 @@ public class Map {
         isCrossed[0][0] = true;
     }
 
-    boolean moveLeftIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
+    boolean moveLeftIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed, boolean[][] isCrossed) {
         boolean isMovePossible = widthPositionInIsCrossed - 1 >= 0 && !isCrossed[heightPositionInIsCrossed][widthPositionInIsCrossed - 1];
         if (isMovePossible) {
             maze[heightPositionInMaze][widthPositionInMaze - 1] = 0;
@@ -85,33 +87,33 @@ public class Map {
         return false;
     }
 
-    void setRandomDirection(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
+    void setRandomDirection(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed, boolean[][] isCrossed) {
         Integer[] direction = generateRandomDirection();
 
         for (Integer integer : direction) {
             switch (integer) {
                 case 1://Right
-                    if (moveRightIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed))
-                        setRandomDirection(heightPositionInMaze, widthPositionInMaze + 2, heightPositionInIsCrossed, widthPositionInIsCrossed + 1,isCrossed);
+                    if (moveRightIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed, isCrossed))
+                        setRandomDirection(heightPositionInMaze, widthPositionInMaze + 2, heightPositionInIsCrossed, widthPositionInIsCrossed + 1, isCrossed);
                     break;
                 case 2://Down
-                    if (moveDownIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed))
-                        setRandomDirection(heightPositionInMaze + 2, widthPositionInMaze, heightPositionInIsCrossed + 1, widthPositionInIsCrossed,isCrossed);
+                    if (moveDownIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed, isCrossed))
+                        setRandomDirection(heightPositionInMaze + 2, widthPositionInMaze, heightPositionInIsCrossed + 1, widthPositionInIsCrossed, isCrossed);
                     break;
                 case 3://Up
-                    if (moveUpIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed))
-                        setRandomDirection(heightPositionInMaze - 2, widthPositionInMaze, heightPositionInIsCrossed - 1, widthPositionInIsCrossed,isCrossed);
+                    if (moveUpIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed, isCrossed))
+                        setRandomDirection(heightPositionInMaze - 2, widthPositionInMaze, heightPositionInIsCrossed - 1, widthPositionInIsCrossed, isCrossed);
                     break;
                 case 4://Left
-                    if (moveLeftIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed,isCrossed))
-                        setRandomDirection(heightPositionInMaze, widthPositionInMaze - 2, heightPositionInIsCrossed, widthPositionInIsCrossed - 1,isCrossed);
+                    if (moveLeftIfItsPossible(heightPositionInMaze, widthPositionInMaze, heightPositionInIsCrossed, widthPositionInIsCrossed, isCrossed))
+                        setRandomDirection(heightPositionInMaze, widthPositionInMaze - 2, heightPositionInIsCrossed, widthPositionInIsCrossed - 1, isCrossed);
                     break;
             }
         }
 
     }
 
-    boolean moveRightIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
+    boolean moveRightIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed, boolean[][] isCrossed) {
         boolean isMovePossible = widthPositionInIsCrossed + 1 < WIDTH && !isCrossed[heightPositionInIsCrossed][widthPositionInIsCrossed + 1];
         if (isMovePossible) {
             maze[heightPositionInMaze][widthPositionInMaze + 1] = 0;
@@ -122,7 +124,7 @@ public class Map {
 
     }
 
-    boolean moveDownIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
+    boolean moveDownIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed, boolean[][] isCrossed) {
         boolean isMovePossible = heightPositionInIsCrossed + 1 < HEIGHT && !isCrossed[heightPositionInIsCrossed + 1][widthPositionInIsCrossed];
         if (isMovePossible) {
             maze[heightPositionInMaze + 1][widthPositionInMaze] = 0;
@@ -132,7 +134,7 @@ public class Map {
         return false;
     }
 
-    boolean moveUpIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed,boolean[][] isCrossed) {
+    boolean moveUpIfItsPossible(int heightPositionInMaze, int widthPositionInMaze, int heightPositionInIsCrossed, int widthPositionInIsCrossed, boolean[][] isCrossed) {
         boolean isMovePossible = heightPositionInIsCrossed - 1 >= 0 && !isCrossed[heightPositionInIsCrossed - 1][widthPositionInIsCrossed];
         if (isMovePossible) {
             maze[heightPositionInMaze - 1][widthPositionInMaze] = 0;

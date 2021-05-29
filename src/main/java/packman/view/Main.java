@@ -16,6 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Main.stage = stage;
+        GameView.getInstance();
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         stage.setTitle("Login");
         stage.setResizable(false);

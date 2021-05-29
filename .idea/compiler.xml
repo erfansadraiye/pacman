@@ -16,11 +16,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="packman" />
+        <module name="pacman" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="packman" target="16" />
+      <module name="pacman" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>

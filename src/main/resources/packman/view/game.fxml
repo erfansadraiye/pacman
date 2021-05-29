@@ -8,9 +8,10 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="770.0" prefWidth="1000.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="packman.view.GameView">
+<AnchorPane prefHeight="770.0" prefWidth="1000.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <children>
       <HBox alignment="CENTER" layoutX="5.0" layoutY="5.0" prefHeight="760.0" prefWidth="990.0">
          <children>
@@ -67,24 +68,38 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="33.0" prefWidth="185.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Life : " />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Life : ">
+                           <font>
+                              <Font size="28.0" />
+                           </font></Text>
+                        <Text fx:id="lifeText" strokeType="OUTSIDE" strokeWidth="0.0">
+                           <font>
+                              <Font size="28.0" />
+                           </font></Text>
                      </children>
                   </HBox>
+                  <Region prefHeight="37.0" prefWidth="186.0" />
                   <HBox alignment="CENTER" prefHeight="33.0" prefWidth="185.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Score : " />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Score : ">
+                           <font>
+                              <Font size="28.0" />
+                           </font></Text>
+                        <Text fx:id="scoreText" strokeType="OUTSIDE" strokeWidth="0.0">
+                           <font>
+                              <Font size="28.0" />
+                           </font></Text>
                      </children>
                   </HBox>
+                  <Region prefHeight="276.0" prefWidth="186.0" />
                   <HBox alignment="CENTER" prefHeight="80.0" prefWidth="186.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Pause" />
+                        <Button mnemonicParsing="false" onAction="#pause" text="Pause" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="69.0" prefWidth="186.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Exit" />
+                        <Button mnemonicParsing="false" onAction="#exit" text="Exit" />
                      </children>
                   </HBox>
                </children>
