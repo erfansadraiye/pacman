@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -70,7 +71,22 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                      </children>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER" prefHeight="33.0" prefWidth="185.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Score : " />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="186.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Pause" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="69.0" prefWidth="186.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Exit" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

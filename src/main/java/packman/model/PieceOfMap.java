@@ -13,13 +13,13 @@ public class PieceOfMap extends Rectangle {
     private boolean isCrossed;
 
     public PieceOfMap(boolean isBlocked) {
-        super(36, 36);
+        super(37, 37);
         this.isBlocked = isBlocked;
         this.isCrossed = isBlocked;
         if (isBlocked())
             setFill(Color.BLUE);
         else {
-            Image image = new Image("file:/home/erfan/IdeaProjects/pacman/src/main/resources/packman/view/is_not_crossed3.png");
+            Image image = new Image("file:src/main/resources/packman/view/is_not_crossed3.png");
             ImagePattern imagePattern = new ImagePattern(image);
             setFill(imagePattern);
         }
