@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -38,6 +39,7 @@ public class GameView {
     public static GridPane savedGridPane;
     public Map map;
     public GridPane gridPane;
+    public Button pauseButton;
     public Text lifeText;
     public Text scoreText;
     public int life;
@@ -225,7 +227,9 @@ public class GameView {
     }
 
     public void pause(ActionEvent actionEvent) {
-        crossed = 224;
+        ghostTimeLine.stop();
+        pacmanTimeLine.stop();
+
     }
 
     public void exit(ActionEvent actionEvent) {
@@ -234,7 +238,7 @@ public class GameView {
         try {
             root = fxmlLoader.load();
             Main.stage.setTitle("Main Menu");
-            Main.stage.setScene(new Scene(root, 300, 400));
+            Main.stage.setScene(new Scene(root, 300, 450));
         } catch (IOException e) {
             e.printStackTrace();
         }

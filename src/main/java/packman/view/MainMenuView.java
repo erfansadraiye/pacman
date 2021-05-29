@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,6 +28,7 @@ public class MainMenuView {
     }
 
     public void newGame(ActionEvent actionEvent) {
+        GameView.getInstance().map = null;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game.fxml"));
         fxmlLoader.setController(GameView.getInstance());
         Parent root = null;
@@ -48,7 +50,6 @@ public class MainMenuView {
                 GameView.getInstance().ghostTimeLine.play();
                 GameView.getInstance().pacmanTimeLine.play();
             });
-//            GameView.getInstance().scene = scene;
             Main.stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,4 +95,39 @@ public class MainMenuView {
     }
 
 
+    public void continueGame(ActionEvent actionEvent) {
+        if (GameView.getInstance().map == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error");
+            alert.setContentText("You should start a new game!");
+            alert.show();
+            return;
+        }
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game.fxml"));
+        fxmlLoader.setController(GameView.getInstance());
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+            Main.stage.setTitle("Pacman");
+            Main.stage.setX(300);
+            Main.stage.setY(5);
+            Scene scene = new Scene(root, 1000, 770);
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+                if (keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.W)
+                    GameView.getInstance().pacman.setDirectionUp();
+                else if (keyEvent.getCode() == KeyCode.D || keyEvent.getCode() == KeyCode.RIGHT)
+                    GameView.getInstance().pacman.setDirectionRight();
+                else if (keyEvent.getCode() == KeyCode.S || keyEvent.getCode() == KeyCode.DOWN)
+                    GameView.getInstance().pacman.setDirectionDown();
+                else if (keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.A)
+                    GameView.getInstance().pacman.setDirectionLeft();
+                GameView.getInstance().ghostTimeLine.play();
+                GameView.getInstance().pacmanTimeLine.play();
+            });
+            Main.stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
