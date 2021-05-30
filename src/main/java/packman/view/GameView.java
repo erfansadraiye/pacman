@@ -12,11 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import packman.controller.DatabaseController;
 import packman.model.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,7 +42,7 @@ public class GameView {
     public static GridPane savedGridPane;
     public Map map;
     public GridPane gridPane;
-    public Button pauseButton;
+    public Button muteButton;
     public Text lifeText;
     public Text scoreText;
     public int life;
@@ -53,7 +56,10 @@ public class GameView {
     public Ghost orangeGhost;
     public Timeline pacmanTimeLine;
     public Timeline ghostTimeLine;
-
+    MediaPlayer backgroundMediaPlayer;
+    MediaPlayer chompMediaPlayer;
+    MediaPlayer deathMediaPlayer;
+    MediaPlayer winMediaPlayer;
 
     public void initialize() {
         if (map == null) {
@@ -66,9 +72,33 @@ public class GameView {
             //todo reset
         } else
             gridPane.getChildren().addAll(savedGridPane.getChildren());
-//            map.passGridPaneChildren(gridPane);
         updateScoreAndLife();
+        initializeMediaPlayers();
         run();
+    }
+
+    public void initializeMediaPlayers() {
+        File file = new File("src/main/resources/packman/view/music/pacman_background.mp3");
+        Media media = new Media(file.toURI().toString());
+        backgroundMediaPlayer = new MediaPlayer(media);
+
+        file = new File("src/main/resources/packman/view/music/pacman_chomp.wav");
+        media = new Media(file.toURI().toString());
+        chompMediaPlayer = new MediaPlayer(media);
+
+        file = new File("src/main/resources/packman/view/music/pacman_death.wav");
+        media = new Media(file.toURI().toString());
+        deathMediaPlayer = new MediaPlayer(media);
+
+        file = new File("src/main/resources/packman/view/music/pacman_extrapac.wav");
+        media = new Media(file.toURI().toString());
+        winMediaPlayer = new MediaPlayer(media);
+
+        backgroundMediaPlayer.autoPlayProperty().setValue(true);
+        backgroundMediaPlayer.setOnEndOfMedia(backgroundMediaPlayer::play);
+        backgroundMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        backgroundMediaPlayer.play();
+
     }
 
     public void run() {
@@ -77,6 +107,7 @@ public class GameView {
         KeyFrame ghostFrame = new KeyFrame(Duration.seconds(0.3), actionEvent -> {
             Cell cell = null;
             if (getAccidentGhost() != null) {
+                playSound(deathMediaPlayer);
                 lose();
                 updateScoreAndLife();
                 return;
@@ -125,6 +156,7 @@ public class GameView {
 //            getInput();
             Cell cell = null;
             if (getAccidentGhost() != null) {
+                playSound(deathMediaPlayer);
                 lose();
                 updateScoreAndLife();
                 return;
@@ -132,49 +164,25 @@ public class GameView {
             switch (pacman.getDirection()) {
                 case DOWN:
                     cell = (Cell) getNodeByRowColumnIndex(pacman.getI() + 1, pacman.getJ(), gridPane);
-                    if (cell.isBlocked)
-                        break;
-                    if (!(((PieceOfMap) cell).isCrossed())) {
-                        score += 5;
-                        crossed++;
-                        ((PieceOfMap) cell).setCrossed(true);
-                    }
+                    if (cantMove(cell)) break;
                     pacman.moveDown();
                     swap(pacman, cell);
                     break;
                 case UP:
                     cell = (Cell) getNodeByRowColumnIndex(pacman.getI() - 1, pacman.getJ(), gridPane);
-                    if (cell.isBlocked)
-                        break;
-                    if (!(((PieceOfMap) cell).isCrossed())) {
-                        score += 5;
-                        crossed++;
-                        ((PieceOfMap) cell).setCrossed(true);
-                    }
+                    if (cantMove(cell)) break;
                     pacman.moveUp();
                     swap(pacman, cell);
                     break;
                 case LEFT:
                     cell = (Cell) getNodeByRowColumnIndex(pacman.getI(), pacman.getJ() - 1, gridPane);
-                    if (cell.isBlocked)
-                        break;
-                    if (!(((PieceOfMap) cell).isCrossed())) {
-                        score += 5;
-                        crossed++;
-                        ((PieceOfMap) cell).setCrossed(true);
-                    }
+                    if (cantMove(cell)) break;
                     pacman.moveLeft();
                     swap(pacman, cell);
                     break;
                 case RIGHT:
                     cell = (Cell) getNodeByRowColumnIndex(pacman.getI(), pacman.getJ() + 1, gridPane);
-                    if (cell.isBlocked)
-                        break;
-                    if (!(((PieceOfMap) cell).isCrossed())) {
-                        crossed++;
-                        score += 5;
-                        ((PieceOfMap) cell).setCrossed(true);
-                    }
+                    if (cantMove(cell)) break;
                     pacman.moveRight();
                     swap(pacman, cell);
                     break;
@@ -185,6 +193,18 @@ public class GameView {
         pacmanTimeLine = new Timeline();
         pacmanTimeLine.getKeyFrames().add(pacmanFrame);
         pacmanTimeLine.setCycleCount(Animation.INDEFINITE);
+    }
+
+    private boolean cantMove(Cell cell) {
+        if (cell.isBlocked)
+            return true;
+        if (!(((PieceOfMap) cell).isCrossed())) {
+            score += 5;
+            crossed++;
+            ((PieceOfMap) cell).setCrossed(true);
+            playSound(chompMediaPlayer);
+        }
+        return false;
     }
 
     public Ghost getAccidentGhost() {
@@ -229,7 +249,12 @@ public class GameView {
     public void pause(ActionEvent actionEvent) {
         ghostTimeLine.stop();
         pacmanTimeLine.stop();
+    }
 
+    public void playSound(MediaPlayer mediaPlayer) {
+        mediaPlayer.autoPlayProperty().setValue(true);
+        mediaPlayer.setOnEndOfMedia(mediaPlayer::stop);
+        mediaPlayer.play();
     }
 
     public void exit(ActionEvent actionEvent) {
@@ -243,6 +268,7 @@ public class GameView {
             e.printStackTrace();
         }
         savedGridPane = gridPane;
+        backgroundMediaPlayer.stop();
         ghostTimeLine.stop();
         pacmanTimeLine.stop();
     }
@@ -250,7 +276,7 @@ public class GameView {
     public void lose() {
         if (life > 1) {
             life--;
-            resetMap();
+            resetGhostsAndPacman();
         } else {
             ghostTimeLine.stop();
             pacmanTimeLine.stop();
@@ -265,6 +291,7 @@ public class GameView {
             }
             alert.setContentText(context);
             map = null;
+            backgroundMediaPlayer.stop();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
             Parent root = null;
             try {
@@ -277,11 +304,27 @@ public class GameView {
             }
             alert.show();
         }
+    }
 
+    public void mute(ActionEvent actionEvent) {
+        if (muteButton.getText().equals("Mute")) {
+            muteButton.setText("Unmute");
+            backgroundMediaPlayer.setMute(true);
+            chompMediaPlayer.setMute(true);
+            deathMediaPlayer.setMute(true);
+            winMediaPlayer.setMute(true);
+        } else {
+            muteButton.setText("Mute");
+            backgroundMediaPlayer.setMute(false);
+            chompMediaPlayer.setMute(false);
+            deathMediaPlayer.setMute(false);
+            winMediaPlayer.setMute(false);
+        }
     }
 
     public void updateScoreAndLife() {
         if (crossed == 228) {
+            playSound(winMediaPlayer);
             life++;
             resetMap();
         }
@@ -297,12 +340,16 @@ public class GameView {
                 ((PieceOfMap) child).setCrossed(false);
             }
         }
+        resetGhostsAndPacman();
+        ghostTimeLine.stop();
+    }
+
+    private void resetGhostsAndPacman() {
         pacman.reset(gridPane);
         for (Ghost ghost : ghosts) {
             ghost.reset(gridPane);
         }
         pacmanTimeLine.stop();
-        ghostTimeLine.stop();
     }
 
     public static Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
@@ -318,25 +365,8 @@ public class GameView {
         return result;
     }
 
-    public static Node getGhostByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
-        for (Node node : childrens) {
-            if (node instanceof Ghost && GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
-    }
-
     public static void swap(Node n1, Node n2) {
-//        Integer temp = GridPane.getRowIndex(n1);
         GridPane.setRowIndex(n1, GridPane.getRowIndex(n2));
-//        GridPane.setRowIndex(n2, temp);
-//
-//        temp = GridPane.getColumnIndex(n1);
         GridPane.setColumnIndex(n1, GridPane.getColumnIndex(n2));
-//        GridPane.setColumnIndex(n2, temp);
     }
 }

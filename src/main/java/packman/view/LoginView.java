@@ -66,5 +66,27 @@ public class LoginView {
             alert.show();
         }
     }
+
+    public void playAsGuest(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        try {
+            LoginController.getInstance().loginUser("guest","guest");
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+            Parent root = null;
+            try {
+                root = fxmlLoader.load();
+                Main.stage.setTitle("Main Menu");
+                Main.stage.setScene(new Scene(root, 300, 450));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            usernameField.clear();
+            passwordField.clear();
+            alert.show();
+        }
+    }
 }
 

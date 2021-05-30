@@ -14,69 +14,67 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="350.0" styleClass="background" xmlns="http://javafx.com/javafx/16" fx:controller="packman.view.LoginView"
-            xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="350.0" styleClass="background" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="packman.view.LoginView">
     <stylesheets>
-        <URL value="@style.css"/>
+        <URL value="@style.css" />
     </stylesheets>
     <children>
-        <VBox layoutX="11.0" layoutY="12.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="11.0"
-              AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="11.0">
+        <VBox layoutX="11.0" layoutY="12.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="11.0">
             <children>
                 <HBox alignment="CENTER" prefHeight="57.0" prefWidth="278.0">
                     <children>
-                        <Region prefHeight="50.0" prefWidth="50.0"/>
+                        <Region prefHeight="50.0" prefWidth="50.0" />
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@pacman.png"/>
+                                <Image url="@pacman.png" />
                             </image>
                         </ImageView>
-                        <Region prefHeight="57.0" prefWidth="10.0"/>
+                        <Region prefHeight="57.0" prefWidth="10.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pacman">
                             <font>
-                                <Font size="23.0"/>
+                                <Font size="23.0" />
                             </font>
                         </Text>
-                        <Region prefHeight="57.0" prefWidth="60.0"/>
+                        <Region prefHeight="57.0" prefWidth="60.0" />
                     </children>
                     <padding>
-                        <Insets bottom="20.0" top="20.0"/>
+                        <Insets bottom="20.0" top="20.0" />
                     </padding>
                 </HBox>
-                <Region prefHeight="42.0" prefWidth="328.0"/>
+                <Region prefHeight="42.0" prefWidth="328.0" />
                 <HBox alignment="CENTER" prefHeight="50.0" prefWidth="270.0">
                     <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User name :" wrappingWidth="100.0703125">
                             <font>
-                                <Font name="System Bold" size="14.0"/>
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Text>
-                        <TextField fx:id="usernameField" prefHeight="35.0" prefWidth="175.0" styleClass="text-field"
-                                   promptText="Enter Username"/>
+                        <TextField fx:id="usernameField" prefHeight="35.0" prefWidth="175.0" promptText="Enter Username" styleClass="text-field" />
                     </children>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="50.0" prefWidth="270.0">
                     <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password :" wrappingWidth="100.32421875">
                             <font>
-                                <Font name="System Bold" size="14.0"/>
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Text>
-                        <PasswordField fx:id="passwordField" prefHeight="34.0" prefWidth="175.0" styleClass="text-field"
-                        promptText="Enter Password"/>
+                        <PasswordField fx:id="passwordField" prefHeight="34.0" prefWidth="175.0" promptText="Enter Password" styleClass="text-field" />
                     </children>
                 </HBox>
-                <Region prefHeight="39.0" prefWidth="328.0"/>
+                <Region prefHeight="17.0" prefWidth="328.0" />
                 <HBox alignment="CENTER" prefHeight="60.0" prefWidth="278.0">
                     <children>
-                        <Button id="signUpButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0"
-                                styleClass="button" text="Sign Up" onAction="#signup" textAlignment="CENTER"/>
-                        <Region prefHeight="56.0" prefWidth="30.0"/>
-                        <Button id="loginButton" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0"
-                                styleClass="button" text="Login" onAction="#login" textAlignment="CENTER"/>
+                        <Button id="signUpButton" mnemonicParsing="false" onAction="#signup" prefHeight="24.0" prefWidth="100.0" styleClass="button" text="Sign Up" textAlignment="CENTER" />
+                        <Region prefHeight="56.0" prefWidth="30.0" />
+                        <Button id="loginButton" mnemonicParsing="false" onAction="#login" prefHeight="24.0" prefWidth="100.0" styleClass="button" text="Login" textAlignment="CENTER" />
                     </children>
                 </HBox>
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="278.0">
+               <children>
+                  <Button id="loginButton" mnemonicParsing="false" onAction="#playAsGuest" prefHeight="42.0" prefWidth="146.0" styleClass="button" text="Play as Guest" textAlignment="CENTER" />
+               </children>
+            </HBox>
             </children>
         </VBox>
     </children>

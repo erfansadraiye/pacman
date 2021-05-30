@@ -94,12 +94,18 @@
                   <Region prefHeight="276.0" prefWidth="186.0" />
                   <HBox alignment="CENTER" prefHeight="80.0" prefWidth="186.0">
                      <children>
-                        <Button mnemonicParsing="false" fx:id="pauseButton" onAction="#pause" text="Pause" />
+                        <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pause" text="Pause" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="69.0" prefWidth="186.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#exit" text="Exit" />
+                     </children>
+                  </HBox>
+                  <Region prefHeight="92.0" prefWidth="186.0" />
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="186.0">
+                     <children>
+                        <Button fx:id="muteButton" mnemonicParsing="false" onAction="#mute" text="Mute" />
                      </children>
                   </HBox>
                </children>
