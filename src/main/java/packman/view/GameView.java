@@ -38,7 +38,6 @@ public class GameView {
 
     }
 
-    //    public Scene scene;
     public static GridPane savedGridPane;
     public Map map;
     public GridPane gridPane;
@@ -153,7 +152,6 @@ public class GameView {
             }
         });
         KeyFrame pacmanFrame = new KeyFrame(Duration.seconds(0.2), actionEvent -> {
-//            getInput();
             Cell cell = null;
             if (getAccidentGhost() != null) {
                 playSound(deathMediaPlayer);
