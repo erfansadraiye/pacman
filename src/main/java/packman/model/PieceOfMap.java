@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
 public class PieceOfMap extends Cell {
-    private boolean isCrossed;
+    public boolean isCrossed;
 
     public PieceOfMap(boolean isBlocked) {
         this.isBlocked = isBlocked;

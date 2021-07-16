@@ -26,19 +26,8 @@ import java.util.Collections;
 
 public class GameView {
 
-    private static GameView gameView;
-
-    public static GameView getInstance() {
-        if (gameView == null)
-            gameView = new GameView();
-        return gameView;
-    }
-
-    private GameView() {
-
-    }
-
     public static GridPane savedGridPane;
+    private static GameView gameView;
     public Map map;
     public GridPane gridPane;
     public Button muteButton;
@@ -48,17 +37,44 @@ public class GameView {
     public int score;
     public int crossed;
     public Pacman pacman;
-    ArrayList<Ghost> ghosts;
     public Ghost blueGhost;
     public Ghost redGhost;
     public Ghost pinkGhost;
     public Ghost orangeGhost;
     public Timeline pacmanTimeLine;
     public Timeline ghostTimeLine;
+    ArrayList<Ghost> ghosts;
     MediaPlayer backgroundMediaPlayer;
     MediaPlayer chompMediaPlayer;
     MediaPlayer deathMediaPlayer;
     MediaPlayer winMediaPlayer;
+    private GameView() {
+
+    }
+
+    public static GameView getInstance() {
+        if (gameView == null)
+            gameView = new GameView();
+        return gameView;
+    }
+
+    public static Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+
+        for (Node node : childrens) {
+            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static void swap(Node n1, Node n2) {
+        GridPane.setRowIndex(n1, GridPane.getRowIndex(n2));
+        GridPane.setColumnIndex(n1, GridPane.getColumnIndex(n2));
+    }
 
     public void initialize() {
         if (map == null) {
@@ -68,7 +84,6 @@ public class GameView {
             map.passGridPaneChildren(gridPane);
             pacman = new Pacman(gridPane);
             start();
-            //todo reset
         } else
             gridPane.getChildren().addAll(savedGridPane.getChildren());
         updateScoreAndLife();
@@ -193,10 +208,22 @@ public class GameView {
         pacmanTimeLine.setCycleCount(Animation.INDEFINITE);
     }
 
+    private int update = 0;
     private boolean cantMove(Cell cell) {
         if (cell.isBlocked)
             return true;
         if (!(((PieceOfMap) cell).isCrossed())) {
+            if (cell instanceof Bomb)
+                for (Ghost ghost : ghosts){
+                    ghost.setScared();
+                    update = 0;
+                }
+            update += 5;
+            if (update == 50)
+                for (Ghost ghost : ghosts) {
+                    ghost.setDefault();
+                    update = 0;
+                }
             score += 5;
             crossed++;
             ((PieceOfMap) cell).setCrossed(true);
@@ -221,7 +248,6 @@ public class GameView {
             Collections.shuffle(randomNumberFrom1to4);
         return randomNumberFrom1to4.toArray(new Integer[4]);
     }
-
 
     private void start() {
         crossed = 0;
@@ -348,23 +374,5 @@ public class GameView {
             ghost.reset(gridPane);
         }
         pacmanTimeLine.stop();
-    }
-
-    public static Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
-
-        for (Node node : childrens) {
-            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
-        }
-        return result;
-    }
-
-    public static void swap(Node n1, Node n2) {
-        GridPane.setRowIndex(n1, GridPane.getRowIndex(n2));
-        GridPane.setColumnIndex(n1, GridPane.getColumnIndex(n2));
     }
 }

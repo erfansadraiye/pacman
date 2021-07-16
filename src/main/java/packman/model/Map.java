@@ -48,11 +48,15 @@ public class Map {
                     pieceOfMap = new PieceOfMap(true);
                 else
                     pieceOfMap = new PieceOfMap(false);
+                if (i == 5 && maze[i][j]==0){
+                    pieceOfMap = new Bomb();
+                }
                 GridPane.setRowIndex(pieceOfMap, i);
                 GridPane.setColumnIndex(pieceOfMap, j);
                 gridPane.getChildren().add(pieceOfMap);
             }
         }
+
     }
 
 
